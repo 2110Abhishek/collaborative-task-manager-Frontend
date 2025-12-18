@@ -4,8 +4,12 @@ import { getMe } from "../api/auth.api";
 export const useAuth = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["me"],
-    queryFn: getMe,
-    retry: false,        
+    queryFn: async () => {
+      const res = await getMe();
+      return res.data;
+    },
+    retry: false,
+  });
 
   return {
     user: data ?? null,
